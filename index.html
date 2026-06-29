@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Illyas Ibrahim | Portfolio</title>
+    <title>Illyas Ibrahim | Tech & Code</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
-            --bg-color: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --text-main: #ffffff;
-            --text-secondary: #a0a0a0;
-            --accent: #fca311; /* Matches the yellow/amber in your glasses */
-            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --bg-color: #0a0a0a;
+            --surface-color: #141414;
+            --card-bg: linear-gradient(145deg, #1a1a1a, #111111);
+            --text-main: #f4f4f5;
+            --text-secondary: #a1a1aa;
+            --accent: #fca311;
+            --accent-glow: rgba(252, 163, 17, 0.15);
+            --border-color: #27272a;
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         * {
@@ -31,181 +34,273 @@
             overflow-x: hidden;
         }
 
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
         ul { list-style: none; }
+
+        /* --- SCROLL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* --- HEADER --- */
         header {
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
             width: 100%;
-            background: rgba(15, 15, 15, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 1px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
         .logo span { color: var(--accent); }
 
-        nav ul { display: flex; gap: 30px; }
-        nav a:hover { color: var(--accent); }
+        nav ul { display: flex; gap: 35px; }
+        nav a { font-size: 0.95rem; font-weight: 500; color: var(--text-secondary); }
+        nav a:hover { color: var(--text-main); }
 
         /* --- HERO SECTION --- */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0 10%;
             flex-wrap: wrap-reverse;
             gap: 50px;
+            background: radial-gradient(circle at 50% -20%, var(--surface-color), var(--bg-color));
         }
 
-        .hero-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .hero-text h3 {
-            font-size: 1.2rem;
+        .hero-text { flex: 1.2; min-width: 320px; }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--accent-glow);
             color: var(--accent);
-            margin-bottom: 10px;
+            border: 1px solid rgba(252, 163, 17, 0.3);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
         }
 
         .hero-text h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
             line-height: 1.1;
             margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
         }
 
         .hero-text p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            max-width: 500px;
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            max-width: 520px;
         }
 
         .typing-text::after {
             content: "|";
             animation: blink 1s infinite;
+            color: var(--accent);
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 12px 28px;
             background-color: var(--accent);
             color: #000;
-            font-weight: bold;
-            border-radius: 5px;
-            display: inline-block;
+            font-weight: 700;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(252, 163, 17, 0.3); }
+        .btn:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 20px var(--accent-glow); 
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+        .btn-outline:hover {
+            border-color: var(--text-main);
+            box-shadow: none;
+        }
 
         .hero-img {
             flex: 1;
             display: flex;
             justify-content: center;
             min-width: 300px;
+            position: relative;
+        }
+
+        .hero-img::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            filter: blur(100px);
+            opacity: 0.1;
+            z-index: 0;
+            border-radius: 50%;
         }
 
         .img-box {
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
+            width: 380px;
+            height: 380px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
             overflow: hidden;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 30px rgba(252, 163, 17, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            animation: morph 8s ease-in-out infinite;
         }
 
-        .img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
         }
 
         /* --- SECTIONS COMMON --- */
-        section { padding: 80px 10%; }
+        section { padding: 100px 10%; }
         .section-title {
-            text-align: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        .section-subtitle {
+            color: var(--text-secondary);
             margin-bottom: 60px;
+            font-size: 1.1rem;
         }
         .section-title span { color: var(--accent); }
 
-        /* --- ABOUT --- */
+        /* --- ABOUT/SKILLS --- */
         .about-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            text-align: center;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
         }
         .about-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            transition: 0.3s;
+            background: var(--surface-color);
+            padding: 35px 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
         }
-        .about-card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .about-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; }
-        .about-card h4 { margin-bottom: 10px; }
-        .about-card p { color: var(--text-secondary); font-size: 0.9rem; }
+        .about-card:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .icon-wrapper {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-glow);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .icon-wrapper i { font-size: 1.5rem; color: var(--accent); }
+        .about-card h4 { margin-bottom: 12px; font-size: 1.2rem; }
+        .about-card p { color: var(--text-secondary); font-size: 0.95rem; }
 
-        /* --- PORTFOLIO / PROJECTS --- */
+        /* --- PORTFOLIO & TOOLS GRIDS --- */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
         }
 
         .project-card {
             background: var(--card-bg);
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #333;
-            transition: 0.3s;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            position: relative;
         }
         
-        .project-card:hover { border-color: var(--accent); }
+        .project-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
 
-        .card-content { padding: 25px; }
+        .card-content { padding: 30px; height: 100%; display: flex; flex-direction: column;}
         .card-tag {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             color: var(--accent);
-            margin-bottom: 10px;
-            display: block;
+            margin-bottom: 12px;
+            display: inline-block;
+            font-weight: 700;
         }
-        .card-content h3 { margin-bottom: 10px; }
-        .card-content p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+        .card-content h3 { margin-bottom: 12px; font-size: 1.4rem; }
+        .card-content p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1;}
         
-        .link-row { display: flex; gap: 15px; }
-        .link-row a { font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+        .link-row { display: flex; gap: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; margin-top: auto;}
+        .link-row a { font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .link-row a:hover { color: var(--accent); }
+
+        /* --- INTERACTIVE TOOLS CSS --- */
+        .tool-ui { margin-top: 20px; background: var(--bg-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 5px; }
+        .tool-input { width: 100%; padding: 10px; background: var(--surface-color); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 6px; font-family: inherit; transition: 0.3s; }
+        .tool-input:focus { outline: none; border-color: var(--accent); }
+        .tool-result { margin-top: 15px; padding: 12px; background: var(--accent-glow); border-left: 3px solid var(--accent); border-radius: 4px; font-family: monospace; font-size: 1.1rem; word-break: break-all; min-height: 48px; display: flex; align-items: center; justify-content: space-between;}
+        .copy-btn { background: transparent; border: none; color: var(--accent); cursor: pointer; font-size: 1.1rem; }
+        .copy-btn:hover { color: #fff; }
+        .speaker-btn-active { background-color: #ef4444 !important; color: white !important; box-shadow: 0 0 20px rgba(239, 68, 68, 0.4) !important; }
 
         /* --- FOOTER --- */
         footer {
-            background: #000;
-            padding: 20px;
+            background: #050505;
+            padding: 30px;
             text-align: center;
             color: var(--text-secondary);
             font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
         }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .hero-text h1 { font-size: 2.5rem; }
-            nav { display: none; } /* Simplified for mobile, can add hamburger menu later */
-            .hero { padding-top: 100px; text-align: center; }
-            .img-box { width: 250px; height: 250px; margin: 0 auto; }
+            header { padding: 15px 20px; }
+            nav { display: none; } 
+            .hero { padding-top: 120px; text-align: center; }
+            .hero-text { min-width: 100%; }
+            .hero-text p { margin: 0 auto 30px; }
+            .img-box { width: 280px; height: 280px; margin: 0 auto; }
+            section { padding: 80px 5%; }
         }
 
         @keyframes blink { 50% { opacity: 0; } }
@@ -218,150 +313,202 @@
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
-                <li><a href="#about">Skills</a></li>
-                <li><a href="#projects">Work</a></li>
-                <li><a href="#creative">Creative</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about">Expertise</a></li>
+                <li><a href="#projects">Software</a></li>
+                <li><a href="#tools">Mini Tools</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero" id="home">
-        <div class="hero-text">
-            <h3>Hello, I am</h3>
+        <div class="hero-text reveal">
+            <span class="badge">Palakkad, Kerala</span>
             <h1>Illyas Ibrahim</h1>
-            <p>Based in Palakkad. I am a <span style="color:white; font-weight:bold;" class="typing-text">Mobile Technician</span></p>
-            <p>Blending hardware expertise with Python development and creative design.</p>
-            <div class="link-row">
-                <a href="https://github.com/illuzX" target="_blank" class="btn"><i class="fab fa-github"></i> GitHub</a>
-                <a href="https://www.instagram.com/illyas__ibrahim" target="_blank" class="btn" style="background:transparent; border:1px solid var(--accent); color:var(--accent);"><i class="fab fa-instagram"></i> Instagram</a>
+            <p>I am a <span style="color:var(--text-main); font-weight:600;" class="typing-text">Mobile Technician</span></p>
+            <p>Bridging the gap between advanced hardware engineering and Python software development.</p>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: flex-start;">
+                <a href="#tools" class="btn">View Mini Tools</a>
+                <a href="https://github.com/illuzX" target="_blank" class="btn btn-outline"><i class="fab fa-github"></i> GitHub</a>
             </div>
         </div>
-        <div class="hero-img">
+        <div class="hero-img reveal">
             <div class="img-box">
+                <!-- Replace with your actual image path -->
                 <img src="profile.png" alt="Illyas Ibrahim">
             </div>
         </div>
     </section>
 
     <section id="about">
-        <h2 class="section-title">My <span>Expertise</span></h2>
+        <h2 class="section-title reveal">Core <span>Expertise</span></h2>
+        <p class="section-subtitle reveal">A multidisciplinary approach to technology.</p>
+        
         <div class="about-grid">
-            <div class="about-card">
-                <i class="fas fa-mobile-alt"></i>
-                <h4>Mobile Technician</h4>
-                <p>Expert in hardware repair, diagnostics, and component level troubleshooting.</p>
+            <div class="about-card reveal">
+                <div class="icon-wrapper"><i class="fas fa-microchip"></i></div>
+                <h4>Hardware Engineering</h4>
+                <p>Chip-level diagnostics, micro-soldering, and fault-finding using DC power supplies and multimeters.</p>
             </div>
-            <div class="about-card">
-                <i class="fab fa-python"></i>
-                <h4>Python Developer</h4>
-                <p>Building automation bots, Flask applications, and backend logic.</p>
+            <div class="about-card reveal">
+                <div class="icon-wrapper"><i class="fab fa-python"></i></div>
+                <h4>Python & Flask</h4>
+                <p>Building functional web applications, service-tracking ERP systems, and automation bots.</p>
             </div>
-            <div class="about-card">
-                <i class="fas fa-laptop-code"></i>
-                <h4>Web Designer</h4>
-                <p>Creating minimal, responsive, and functional web interfaces.</p>
+            <div class="about-card reveal">
+                <div class="icon-wrapper"><i class="fas fa-sliders-h"></i></div>
+                <h4>Audio Production</h4>
+                <p>Vocal mixing, dynamic EQ, compression, and mastering techniques using BandLab.</p>
             </div>
-            <div class="about-card">
-                <i class="fas fa-microphone"></i>
-                <h4>Singer & Creator</h4>
-                <p>Passionate vocalist and videographer creating engaging content.</p>
+            <div class="about-card reveal">
+                <div class="icon-wrapper"><i class="fas fa-laptop-code"></i></div>
+                <h4>Web Development</h4>
+                <p>Designing minimal, responsive, and functional front-end interfaces using modern web standards.</p>
             </div>
         </div>
     </section>
 
     <section id="projects">
-        <h2 class="section-title">Dev <span>Projects</span></h2>
+        <h2 class="section-title reveal">Software <span>Projects</span></h2>
+        <p class="section-subtitle reveal">Web applications and automation logic.</p>
+        
         <div class="portfolio-grid">
-            <div class="project-card">
+            <div class="project-card reveal">
                 <div class="card-content">
-                    <span class="card-tag">Python & Telegram</span>
-                    <h3>AtwFilt Movie Bot</h3>
-                    <p>An open-source Telegram bot for movie filtering and automation. Available on GitHub.</p>
+                    <span class="card-tag">Python / Flask ERP</span>
+                    <h3>Multi-Branch Service Center</h3>
+                    <p>Developed and deployed a backend tracking application hosted on PythonAnywhere. Features inventory management and live service tracking across multiple shop locations.</p>
                     <div class="link-row">
-                        <a href="https://github.com/illuzX/AtwFilt" target="_blank"><i class="fab fa-github"></i> View Code</a>
+                        <a href="#"><i class="fas fa-server"></i> View Architecture</a>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card reveal">
+                <div class="card-content">
+                    <span class="card-tag">Python & Telegram</span>
+                    <h3>AtwFilt Movie Bot</h3>
+                    <p>An open-source Telegram bot handling complex query filtering and automation tasks efficiently.</p>
+                    <div class="link-row">
+                        <a href="https://github.com/illuzX/AtwFilt" target="_blank"><i class="fab fa-github"></i> Source Code</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
                 <div class="card-content">
                     <span class="card-tag">Flask Web App</span>
                     <h3>Beyox Project</h3>
-                    <p>A web application built using the Flask micro-framework and Python.</p>
+                    <p>A lightweight, responsive web application demonstrating the implementation of the Flask micro-framework.</p>
                     <div class="link-row">
                         <a href="https://beyox.pythonanywhere.com" target="_blank"><i class="fas fa-external-link-alt"></i> Live Demo</a>
                     </div>
                 </div>
             </div>
-
-            <div class="project-card">
-                <div class="card-content">
-                    <span class="card-tag">Open Source</span>
-                    <h3>Portfolio Template</h3>
-                    <p>Free open-source stuff and portfolio templates hosted on GitHub.</p>
-                    <div class="link-row">
-                        <a href="https://github.com/illuzX/portflo" target="_blank"><i class="fab fa-github"></i> View Repo</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="creative">
-        <h2 class="section-title">Creative <span>Gallery</span></h2>
+    <!-- INTEGRATED TOOLS SECTION -->
+    <section id="tools" style="background: var(--surface-color);">
+        <h2 class="section-title reveal">Mini <span>Tools</span></h2>
+        <p class="section-subtitle reveal">Live JavaScript utilities highlighting front-end interactivity.</p>
+        
         <div class="portfolio-grid">
-            <div class="project-card" style="border-color: #E1306C;">
+            <!-- Tool 1: Ohm's Law Calculator -->
+            <div class="project-card reveal" style="border-top: 3px solid var(--accent);">
                 <div class="card-content">
-                    <span class="card-tag" style="color: #E1306C;">Vocals</span>
-                    <h3>Cover Song Reel</h3>
-                    <p>Check out my latest cover song performance on Instagram.</p>
-                    <div class="link-row">
-                        <a href="https://www.instagram.com/reel/DKZC-2oxvWd/?igsh=MXJsZnNtYnRsMzFhaA==" target="_blank" style="color:#E1306C"><i class="fab fa-instagram"></i> Watch Reel</a>
+                    <span class="card-tag">Hardware Utility</span>
+                    <h3>Ohm's Law Calculator</h3>
+                    <p>Enter any two values to calculate the third. Useful for quick board-level diagnostic math.</p>
+                    
+                    <div class="tool-ui">
+                        <div class="input-group">
+                            <label>Voltage (V)</label>
+                            <input type="number" id="calc-v" class="tool-input" placeholder="e.g. 5">
+                        </div>
+                        <div class="input-group">
+                            <label>Current (I) in Amps</label>
+                            <input type="number" id="calc-i" class="tool-input" placeholder="e.g. 2">
+                        </div>
+                        <div class="input-group">
+                            <label>Resistance (R) in Ohms</label>
+                            <input type="number" id="calc-r" class="tool-input" placeholder="e.g. 2.5">
+                        </div>
+                        <button class="btn" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="calculateOhmsLaw()">Calculate</button>
+                        <div class="tool-result" id="ohm-result" style="justify-content: center;">Result will appear here</div>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card" style="border-color: #E1306C;">
+            <!-- Tool 2: Speaker Cleaner -->
+            <div class="project-card reveal" style="border-top: 3px solid var(--accent);">
                 <div class="card-content">
-                    <span class="card-tag" style="color: #E1306C;">Videography</span>
-                    <h3>Cinematic Edit</h3>
-                    <p>Showcasing video editing and cinematography skills.</p>
-                    <div class="link-row">
-                        <a href="https://www.instagram.com/reel/DRcGhiZEsP_/?igsh=eHQ1ZjJjbTlqMGZr" target="_blank" style="color:#E1306C"><i class="fab fa-instagram"></i> Watch Reel</a>
+                    <span class="card-tag">Mobile Utility</span>
+                    <h3>Speaker Cleaner</h3>
+                    <p>Uses Web Audio API to play a continuous 165Hz sine wave, the exact frequency used to eject water and dust from smartphone speakers.</p>
+                    
+                    <div class="tool-ui" style="display: flex; flex-direction: column; justify-content: center; height: 100%; min-height: 220px;">
+                        <button class="btn" id="speaker-btn" style="width: 100%; justify-content: center; padding: 20px; font-size: 1.2rem; margin-bottom: 20px;" onclick="toggleSpeakerCleaner()">
+                            <i class="fas fa-wave-square"></i> Start Cleaning
+                        </button>
+                        <div class="tool-result" style="justify-content: center;">
+                            <span id="speaker-status">Ready. Turn volume to max.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 3: Password Generator -->
+            <div class="project-card reveal" style="border-top: 3px solid var(--accent);">
+                <div class="card-content">
+                    <span class="card-tag">Security Utility</span>
+                    <h3>Secure Pass Gen</h3>
+                    <p>Generate a secure, random password client-side using JavaScript.</p>
+                    
+                    <div class="tool-ui">
+                        <div class="input-group">
+                            <label>Length: <span id="length-val">16</span></label>
+                            <input type="range" id="pass-length" class="tool-input" min="8" max="32" value="16" oninput="document.getElementById('length-val').innerText = this.value">
+                        </div>
+                        <button class="btn" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="generatePassword()">Generate Password</button>
+                        <div class="tool-result">
+                            <span id="pass-result">Click Generate</span>
+                            <button class="copy-btn" onclick="copyPassword()" title="Copy to clipboard"><i class="far fa-copy"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" style="text-align: center;">
-        <h2 class="section-title">Get In <span>Touch</span></h2>
-        <p style="color: var(--text-secondary); margin-bottom: 30px;">
-            Whether you need a mobile fix, a website, or a python script, feel free to reach out.
-        </p>
-        <a href="https://www.instagram.com/illyas__ibrahim" class="btn"><i class="fab fa-instagram"></i> DM on Instagram</a>
-        <br><br>
-        <div class="link-row" style="justify-content: center; margin-top: 20px;">
-            <a href="https://github.com/illuzX"><i class="fab fa-github" style="font-size: 2rem;"></i></a>
+    <section id="contact" style="text-align: center; padding-bottom: 120px;">
+        <h2 class="section-title reveal">Let's <span>Connect</span></h2>
+        <p class="section-subtitle reveal">Available for technical diagnostics, dev work, or creative collaborations.</p>
+        
+        <div class="reveal" style="margin-top: 40px;">
+            <a href="https://www.instagram.com/illyas__ibrahim" target="_blank" class="btn" style="padding: 15px 40px; font-size: 1.1rem;">
+                <i class="fab fa-instagram"></i> DM on Instagram
+            </a>
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
+                <a href="https://github.com/illuzX" target="_blank" style="font-size: 1.8rem; color: var(--text-secondary);"><i class="fab fa-github"></i></a>
+                <a href="#" style="font-size: 1.8rem; color: var(--text-secondary);"><i class="fab fa-linkedin"></i></a>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 Illyas Ibrahim. Built with code & creativity.</p>
+        <p>&copy; 2026 Illyas Ibrahim. Engineered in Palakkad.</p>
     </footer>
 
     <script>
-        // Simple Typing Effect
+        // --- 1. Typing Effect ---
         const textElement = document.querySelector('.typing-text');
-        const roles = ["Mobile Technician", "Python Developer", "Singer", "Web Designer"];
+        const roles = ["Mobile Technician", "Python Developer", "Hardware Engineer", "Music Producer"];
         let roleIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
 
         function type() {
             const currentRole = roles[roleIndex];
-            
             if (isDeleting) {
                 textElement.textContent = currentRole.substring(0, charIndex - 1);
                 charIndex--;
@@ -372,17 +519,136 @@
 
             if (!isDeleting && charIndex === currentRole.length) {
                 isDeleting = true;
-                setTimeout(type, 2000); // Pause at end
+                setTimeout(type, 2000); 
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 roleIndex = (roleIndex + 1) % roles.length;
-                setTimeout(type, 500); // Pause before new word
+                setTimeout(type, 500); 
             } else {
-                setTimeout(type, isDeleting ? 100 : 200);
+                setTimeout(type, isDeleting ? 50 : 100);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', type);
+
+        // --- 2. Scroll Reveal Animations ---
+        function revealElements() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            reveals.forEach(reveal => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealElements);
+        revealElements();
+
+        // --- 3. TOOL: Ohm's Law Calculator ---
+        function calculateOhmsLaw() {
+            const vInput = document.getElementById('calc-v');
+            const iInput = document.getElementById('calc-i');
+            const rInput = document.getElementById('calc-r');
+            const resultDiv = document.getElementById('ohm-result');
+
+            let v = parseFloat(vInput.value);
+            let i = parseFloat(iInput.value);
+            let r = parseFloat(rInput.value);
+            
+            let filledCount = (!isNaN(v) ? 1 : 0) + (!isNaN(i) ? 1 : 0) + (!isNaN(r) ? 1 : 0);
+
+            if (filledCount < 2) {
+                resultDiv.innerHTML = "Please enter exactly 2 values.";
+                resultDiv.style.color = "#ef4444";
+                return;
+            }
+            if (filledCount === 3) {
+                resultDiv.innerHTML = "Clear one field to calculate it.";
+                resultDiv.style.color = "#ef4444";
+                return;
+            }
+
+            resultDiv.style.color = "inherit";
+            if (isNaN(v)) {
+                vInput.value = (i * r).toFixed(2);
+                resultDiv.innerHTML = `Voltage = ${(i * r).toFixed(2)} V`;
+            } else if (isNaN(i)) {
+                iInput.value = (v / r).toFixed(2);
+                resultDiv.innerHTML = `Current = ${(v / r).toFixed(2)} A`;
+            } else if (isNaN(r)) {
+                rInput.value = (v / i).toFixed(2);
+                resultDiv.innerHTML = `Resistance = ${(v / i).toFixed(2)} Ω`;
             }
         }
 
-        document.addEventListener('DOMContentLoaded', type);
+        // --- 4. TOOL: Speaker Cleaner (Web Audio API) ---
+        let audioCtx;
+        let oscillator;
+        let isPlaying = false;
+
+        function toggleSpeakerCleaner() {
+            const btn = document.getElementById('speaker-btn');
+            const status = document.getElementById('speaker-status');
+
+            if (isPlaying) {
+                // Stop audio
+                oscillator.stop();
+                audioCtx.close();
+                isPlaying = false;
+                
+                // Reset UI
+                btn.innerHTML = '<i class="fas fa-wave-square"></i> Start Cleaning';
+                btn.classList.remove('speaker-btn-active');
+                status.innerText = "Ready. Turn volume to max.";
+                status.style.color = "inherit";
+            } else {
+                // Initialize Web Audio API
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                // 165Hz is the optimal frequency for water ejection
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(165, audioCtx.currentTime); 
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                // Start Audio
+                oscillator.start();
+                isPlaying = true;
+
+                // Update UI
+                btn.innerHTML = '<i class="fas fa-stop-circle"></i> Stop Sound';
+                btn.classList.add('speaker-btn-active');
+                status.innerHTML = "Playing 165Hz Tone <i class='fas fa-volume-up' style='margin-left:5px;'></i>";
+                status.style.color = "var(--accent)";
+            }
+        }
+
+        // --- 5. TOOL: Password Generator ---
+        function generatePassword() {
+            const length = document.getElementById('pass-length').value;
+            const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            let retVal = "";
+            for (let i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            document.getElementById('pass-result').innerText = retVal;
+        }
+
+        function copyPassword() {
+            const passText = document.getElementById('pass-result').innerText;
+            if(passText === "Click Generate") return;
+            navigator.clipboard.writeText(passText).then(() => {
+                const btn = document.querySelector('.copy-btn i');
+                btn.className = "fas fa-check";
+                setTimeout(() => { btn.className = "far fa-copy"; }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
+                
